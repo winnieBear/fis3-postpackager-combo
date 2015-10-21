@@ -1,0 +1,26 @@
+{
+  "name": "fis3-postpackager-combo",
+  "version": "1.0.0",
+  "description": "url combo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obingo/fis3-postpackager-combo.git"
+  },
+  "keywords": [
+    "fis3",
+    "combo"
+  ],
+  "author": "xsbchen",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/obingo/fis3-postpackager-combo/issues"
+  },
+  "homepage": "https://github.com/obingo/fis3-postpackager-combo",
+  "dependencies": {
+    "extend": "^3.0.0"
+  }
+}
