@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/obingo/fis3-postpackager-combo.git"
+    "url": "git+https://github.com/xsbchen/fis3-postpackager-combo.git"
   },
   "keywords": [
     "fis3",
@@ -17,9 +17,9 @@
   "author": "xsbchen",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/obingo/fis3-postpackager-combo/issues"
+    "url": "https://github.com/xsbchen/fis3-postpackager-combo/issues"
   },
-  "homepage": "https://github.com/obingo/fis3-postpackager-combo",
+  "homepage": "https://github.com/xsbchen/fis3-postpackager-combo",
   "dependencies": {
     "extend": "^3.0.0"
   }
