@@ -23,14 +23,56 @@ module.exports = function (ret, conf, settings, opt) {
   var files = ret.src;
 
   var combo = new Combo(settings);
+  var path = require('path')
+  var root = fis.project.getProjectPath();
+  var fs = require('fs');
 
   Object.keys(files).forEach(function (subpath) {
     var file = files[subpath];
-
+    var isPage = false;
     if (file.isHtmlLike) {
-      var content = file.getContent();
-      content = combo.process(content);
-      file.setContent(content);
+        var fileId = file.id;
+        var content = file.getContent();
+        var globalStaticConf = {
+            arrGlobalJs: [],
+            arrGlobalCss: []
+        };
+
+        if (/^page\/(.*?)\.vm$/.test(fileId)) {
+            var regLayout = /#extends\(("|')(\/?page\/layout\/.*?)\.vm\1\)/;
+            var match = content.match(regLayout);
+            if (match) {
+                var layoutFileId = match[2];
+            }
+            if (layoutFileId) {
+                isPage = true;
+                // get layout_xx.conf.json
+                var layoutConfFilePath = path.join(root, layoutFileId + '.conf.json');
+                var json = fs.readFileSync(layoutConfFilePath, 'utf8');
+                var layoutConf = JSON.parse(json);
+                globalStaticConf = {
+                    arrGlobalJs: layoutConf['arrGlobalJs'],
+                    arrGlobalCss: layoutConf['arrGlobalCss']
+                };
+            }
+        }
+
+        var conf = {
+            isPage: isPage,
+            fileId: fileId,
+            map: ret.map['res'],
+            globalStaticConf: globalStaticConf
+        };
+
+        content = combo.process(content, conf);
+        file.setContent(content);
     }
   });
+
+
+    var ns = fis.get('namespace');
+    var mapFile = ns ? (ns + '-map.json') : 'map.json';
+    var map = fis.file.wrap(path.join(root, mapFile));
+    map.setContent(JSON.stringify(ret.map, null, map.optimizer ? null : 4));
+    ret.pkg[map.subpath] = map;
 }
